@@ -1,4 +1,7 @@
-FROM ubuntu:bionic
+FROM arm32v7/openjdk:8
+
+# Add qemu bin
+COPY ./qemu-arm-static /usr/bin/qemu-arm-static
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     ca-certificates \
@@ -13,6 +16,5 @@ ENV PATH $JAVA_HOME/bin:$PATH
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
-RUN mkdir -p /opt/openjdk \
- && cd /opt/openjdk \
- && curl https://java-buildpack.cloudfoundry.org/openjdk/bionic/x86_64/openjdk-1.8.0_192.tar.gz | tar xz
+# Remove qemu bin
+# RUN rm /usr/bin/qemu-arm-static
